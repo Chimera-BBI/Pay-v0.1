@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My App</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
+
+  <style>
+    /* Add custom CSS for dark mode theme */
+    body {
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    .nav-link {
+      color: #ffffff !important;
+    }
+
+    .nav-link:hover {
+      color: #d3d3d3 !important;
+    }
+
+    .btn {
+      background-color: #333333;
+      border-color: #ffffff;
+      color: #ffffff;
+    }
+
+    .btn:hover {
+      background-color: #555555;
+      border-color: #d3d3d3;
+      color: #d3d3d3;
+    }
+
+    /* Add custom CSS for animations */
+    .animated {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .fadeIn {
+      animation-name: fadeIn;
+    }
+  </style>
+</head>
+
+</head>
+<body>
+  <!-- Header -->
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Logo</a>
+      <span class="navbar-text float-right">
+        Account: <span class="showAccount"></span>
+        <button class="btn btn-link p-0 ml-2 enableEthereumButton">Enable Ethereum</button>
+      </span>
+    </div>
+  </nav>
+
+   <!-- Side Navigation -->
+   <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Crypto App</div>
+      <div class="list-group list-group-flush">
+        <!-- Send Crypto -->
+        <a href="#" class="list-group-item list-group-item-action bg-light">Send Crypto</a>
+        <!-- Receive Crypto -->
+        <a href="#" class="list-group-item list-group-item-action bg-light">Receive Crypto</a>
+        <!-- View Transactions -->
+        <a href="#" class="list-group-item list-group-item-action bg-light">View Transactions</a>
+
+        <a href="#" class="list-group-item list-group-item-action bg-light">Edit account</a>
+
+      </div>
+    </div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+
+            <!--Content section end-->
+                {% block content %} 
+                {% endblock %}
+            <!--Content section end-->
+
+
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Footer -->
+  <footer class="bg-dark py-3 mt-5 text-light text-center">
+    <p>Copyright &copy; Crypto App 2021</p>
+  </footer>
+</body>
+
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
