@@ -30,7 +30,9 @@
               <input type="tel" class="form-control" name="phoneNumber" placeholder="Enter phone number">
               <input type="password" class="form-control" name="OTP" placeholder="Enter the OTP" style="display:none;">
             </div>
-            <button type="buttom" class="btn btn-primary" name="submit-otp" style="display:none;">Submit OTP</button>
+            <input type="submit" formaction={{url_for("VerifyOTP")}} value="Submit OTP"   title="Submit OTP"    class="btn btn-primary" name="submit-otp"      style="display:none;"   />
+
+            <!-- <button type="buttom" class="btn btn-primary" name="submit-otp" style="display:none;">Submit OTP</button> -->
           </form>
           <button class="btn btn-primary" name="submit-ph-no" onclick="submit_phone_no()">Submit Phone Number</button>
 

@@ -158,21 +158,94 @@ def GetOtp():
     return (status)
         
 
+@app.route("/VerifyOTP",methods=['GET','POST'])
+def VerifyOTP():
+
+    data = request.form.to_dict()
+
+    phone_number    = data["phoneNumber"]
+    session_var     = session["Authentication Key"] 
+    answer          = data["OTP"]
+    results         = LoginModule.verify_otp(phone_number,session_var,answer)
+
+    # raise Exception("Test")
+
+    if "AuthenticationResult" in results:
+        access_token    = results["AuthenticationResult"]["AccessToken"]
+        resp            = make_response(redirect(url_for('send'),302))
+        set_access_cookies(resp,access_token)
+        return resp,302
+    
+    # return "OTP Not Valid"
+    flash("OTP Not Valid",'alert')
+    return redirect(url_for("login"))
 
 
-# sampel route
 
+@app.route('/logout')
+@jwt_required()
+def logout():
+    session.clear()
+    resp = unset_jwt()
+    return resp,302
+
+
+# # sampel route
+# @jwt_required()
 # @app.route("/")
 # def index():
-
 #     return render_template("index.html")
 
 
 
 @app.route("/send")
 def send():
-
     return render_template("send.html")
+
+
+
+# @app.route("/getRawTransaction")
+# def get_raw_transaction():
+
+#     data = request.form.to_dict()
+
+#     from_address    = data["from"]
+#     to_address     = session["to"] 
+
+#         # Defining the ABI and address of the contract
+#     abi = ""  # Replace with the ABI of your contract
+
+#     with open("Greeter abi.json","r") as file:
+#         abi = json.load(file)
+
+#     address = web3.toChecksumAddress("0xBB59CB1Ec4EBa676C46Dc8575EF8c6618b2674a8")  # Replace with the address of your contract
+
+#     # Creating a contract object using the Web3 library
+#     contract = web3.eth.contract(address=address, abi=abi)
+
+#     # Printing the current greeting in the contract
+#     print(contract.functions.greet().call())
+
+
+#     # Defining the Ethereum addresses of two accounts
+#     account_1 = "0xf2e2a0d733f903A858E1fd13Abd5b13b408B46f8"
+
+#     # Defining the private key of the first account
+#     private_key = "9f802b1193debbaf4478482d86a5db382a7bbd56bc7a2b7114c398afab75442b"
+
+#     # Getting the nonce (number of transactions sent) of the first account
+#     nonce = web3.eth.getTransactionCount(account_1)
+
+
+#     # Get the transaction hash of the deployment
+#     transaction = contract.functions.setGreeting('Got the concept!').build_transaction(
+#                                                                                     {
+#                                                                                         "gasPrice": web3.eth.gas_price,
+#                                                                                         "from" : account_1,
+#                                                                                         "nonce" : nonce
+#                                                                                     }
+
+#                                                                                     )
 
 
 

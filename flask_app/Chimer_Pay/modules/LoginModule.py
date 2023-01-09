@@ -1,7 +1,7 @@
 import boto3
 
-client = boto3.client('cognito-idp',region_name='us-west-2')
-client_ID = "3o94dcii9vbffnov373replbg0"
+client = boto3.client('cognito-idp',region_name='us-east-1')
+client_ID = "5pujbcjhg6ho3ej2pkr788hdid"
 Cognito_pool = "us-west-2_Bp49n99eZ"
 
 def sign_up_user(phone_number):
