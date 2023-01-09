@@ -2,24 +2,40 @@
 {% block content %}
 
     <div class="container mt-5 text-light">
-        <h1>Cryptocurrency Transfer</h1>
+        <h1>Ethereum Mobile Payments</h1>
         <form id="Send_Crypto" method="POST" class="form-register"  enctype="multipart/form-data" >
             <div class="form-group">
-                <label for="to_address">To Address:</label>
+                <label for="to_address">To (Mobile Phone Number):</label>
                 <input type="text" class="form-control" id="to_address" name="to_address" value="">
             </div>
             <div class="form-group">
-                <label for="value">Value:</label>
+                <label for="value">Value (In Eth):</label>
                 <input type="text" class="form-control" id="value" name="cvalue" value="">
-                <input type="submit" formaction={{url_for("GetAddress")}} value="Submit OTP"   title="Submit OTP"    class="btn btn-primary" name="submit-otp"   />
+                <!-- <input type="submit" formaction={{url_for("GetAddress")}} value="Submit OTP"   title="Submit OTP"    class="btn btn-primary" name="submit-otp"   /> -->
 
             </div>
             <!-- <button type="submit" class="btn btn-primary" id="transfer_button">Transfer</button> -->
             <!-- <button class="sendEthButton btn btn-primary">Send Eth</button> -->
 
         </form>
-        <button class="sendEthButton btn btn-primary">Send Eth</button>
+        <button class="sendEthButton btn" style="color: gold; background:black">Send Eth</button>
     </div>
+
+    <div class="container mt-5 text-light">
+        Balance: {{balance}}
+        <br>
+        Eth Address: {{session["Recieving Address"]}}
+        <br>
+        Phone Number: {{session["phone_number"]}}
+        <br>
+        <br>
+
+        <a href="{{url_for('logout')}}" style="color: grey; background:black;"><u>Logout</u></a>
+    <!-- <button type = "button" class="btn" style="color: red; background:black">Logout</button> -->
+
+    </div>
+
+
 
     <script>
 

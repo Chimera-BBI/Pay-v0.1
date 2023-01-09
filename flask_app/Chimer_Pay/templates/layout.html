@@ -7,6 +7,8 @@
   <title>My App</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
   <!-- Custom CSS -->
   <!-- <link rel="stylesheet" href="/static/styles.css"> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
@@ -17,12 +19,21 @@
   <style>
     /* Add custom CSS for dark mode theme */
     body {
-      background-color: #333333;
+      background-color: #000;
       color: #ffffff;
+      height: 100vh;
+    }
+
+    .navbar{
+      height: 5vh;
     }
 
     .nav-link {
       color: #ffffff !important;
+    }
+
+    .main-block{
+      height: 75vh;
     }
 
     .nav-link:hover {
@@ -59,42 +70,96 @@
     .fadeIn {
       animation-name: fadeIn;
     }
+
+    .headerx a {
+      color: #f1f1f1;
+      text-align: center;
+      text-decoration: none;
+      height: 7vh;
+      margin: 20px auto auto auto;
+    }
+
+    .headerx a img{
+      /* height: 8%; */
+      /* width: 40px; */
+      height: 100%;
+    }
+    
+
+
+  footer
+  {
+      height: 5vh;
+  }
+
+
+  footer .content
+  {
+      padding-bottom: 1% ;
+
+  }
+
+  footer .middle 
+  { 
+  align-self: center;
+  margin: auto;
+  text-align: center;
+
+  /* uncomment this to make it golden */
+  /* background: linear-gradient(to right, #c59941, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+
+  color: #f1f1f1;
+
+  }
+
+  footer a{
+      color: #f1f1f1;
+      text-decoration: none;
+  }
+
+  footer .middle .email
+  {
+  font-size: 18px;
+  padding: 3px;
+  }
+
+  footer .middle .copyright
+  {
+  font-size: 15px;
+  padding: 3px;
+  padding-bottom: 5px;
+
+  }
+
+  footer .middle .socials img{
+  /* height: 3.5%; */
+  width: 20px;
+  }
+
+
+
   </style>
 </head>
 
 </head>
 <body>
   <!-- Header -->
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="#">Logo</a>
-      <span class="navbar-text float-right">
+  <nav class="navbar navbar-dark bg-black">
+    <div class="container headerx">
+      <a href="#default" class="logo"><img src="{{ url_for('static', filename='image/logo.svg') }}"></a>
+      <span class="navbar-text float-right" style="display:none">
         Account: <span class="showAccount"></span>
         <button class="btn btn-link p-0 ml-2 enableEthereumButton">Enable Ethereum</button>
       </span>
     </div>
   </nav>
 
-   <!-- Side Navigation -->
-   <div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">Crypto App</div>
-      <div class="list-group list-group-flush">
-        <!-- Send Crypto -->
-        <a href="#" class="list-group-item list-group-item-action bg-light">Send Crypto</a>
-        <!-- Receive Crypto -->
-        <a href="#" class="list-group-item list-group-item-action bg-light">Receive Crypto</a>
-        <!-- View Transactions -->
-        <a href="#" class="list-group-item list-group-item-action bg-light">View Transactions</a>
-
-        <a href="#" class="list-group-item list-group-item-action bg-light">Edit account</a>
-
-      </div>
-    </div>
+   
     <!-- Page Content -->
     <div id="page-content-wrapper">
-      <div class="container-fluid">
+      <div class="container-fluid main-block">
 
             <!--Content section end-->
                 {% block content %} 
@@ -108,8 +173,56 @@
 
   
   <!-- Footer -->
-  <footer class="bg-dark py-3 mt-5 text-light text-center">
+  <!-- <footer class="bg-black py-3 mt-5 text-light text-center" style="">
     <p>Copyright &copy; Crypto App 2021</p>
+  </footer> -->
+
+  <footer>
+    <div class="content">
+      <!-- <div class="left box">
+        <div class="upper">
+          <div class="topic">About us</div>
+          <p>CodingLab is a channel where you can learn HTML,
+          CSS, and also JavaScript along with creative CSS Animations and Effects.</p>
+        </div>
+      </div> -->
+      <div class="middle">
+        <!-- <div class="topic">Contact us</div>
+        <div class="phone">
+          <a href="#"><i class="fas fa-phone-volume"></i>+007 9089 6767</a>
+        </div> -->
+
+        <div class="socials">
+
+          <a href="https://twitter.com/chimere_world?s=21&t=FrASLiWKtvWJoy-F1vMjhw" class="logo"><img src="{{ url_for('static', filename='image/Twitter-logo.svg') }}"></a>
+
+        </div>
+
+        <div class="email">
+          <a href="#">world.chimere@gmail.com</a>
+        </div>
+      
+
+        <div class="copyright">
+          ©2022 by Chimère
+        </div>
+
+    </div>
+
+      <!-- <div class="right box">
+        <div class="topic">Subscribe us</div>
+          <div class="media-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+      </div> -->
+    </div>
+    <!-- <div class="bottom">
+      <p>Copyright © 2022 <a href="#">Chimera</a> All rights reserved</p>
+    </div> -->
   </footer>
 </body>
 

@@ -110,6 +110,8 @@ def add_header(r):
 
 
 
+
+
 # @app.route("/get-started")
 @app.route("/")
 def get_started():
@@ -213,9 +215,10 @@ def GetAddress():
 
 
 @app.route('/logout')
-@jwt_required()
 def logout():
     session.clear()
+    # session["phone_number"] = None
+    # session["Recieving Address"] = None
     resp = unset_jwt()
     return resp,302
 
@@ -227,11 +230,41 @@ def logout():
 #     return render_template("index.html")
 
 
+# Set the URL of the Ethereum node you want to connect to
+infura_url = "https://goerli.ethereum.coinbasecloud.net"
+# Set the API key and username to use for authentication
+# These are test keys and will be deleted
+api_key = "LFAS4QZUWCIXAUEX56EZ4CFVNU7A7BNP4T4Q3KPQ"
+username = "ROUECLBUF73ULG4A7SZS"
+
+#Create a session with username and password
+sessionx = requests.Session()
+sessionx.auth = (username, api_key)
+
+
+
+@app.route("/GetEthBalance/<address>")
+def get_balance_eth(address):
+    #Connect to your Node
+    web3 = Web3(Web3.HTTPProvider(infura_url, session=sessionx))
+
+    # Checking if the connection to the node was successful
+    if web3.isConnected():
+        print("Successfully connected to the node at", infura_url)
+    else:
+        print("Connection to node failed. Please check the URL and try again.")
+    # Getting the balance of the wallet in Wei using the getBalance method
+    address = Web3.toChecksumAddress(address)
+    balance_in_wei = web3.eth.getBalance(address)
+
+    return str(balance_in_wei)
+
 
 @app.route("/send")
 @SessionCheck(Name="Check Phone Account Link")
 def send():
-    return render_template("send.html")
+    balance = get_balance_eth(session["Recieving Address"])
+    return render_template("send.html",balance=balance)
 
 
 
@@ -286,28 +319,3 @@ def send():
 # def transfer(to_address, value):
 
 
-@app.route("/GetEthBalance/<address>")
-def get_balance_eth(address):
-
-        # Set the URL of the Ethereum node you want to connect to
-    infura_url = "https://goerli.ethereum.coinbasecloud.net"
-    # Set the API key and username to use for authentication
-    api_key = "LFAS4QZUWCIXAUEX56EZ4CFVNU7A7BNP4T4Q3KPQ"
-    username = "ROUECLBUF73ULG4A7SZS"
-
-    #Create a session with username and password
-    sessionx = requests.Session()
-    sessionx.auth = (username, api_key)
-    
-    #Connect to your Node
-    web3 = Web3(Web3.HTTPProvider(infura_url, session=sessionx))
-
-    # Checking if the connection to the node was successful
-    if web3.isConnected():
-        print("Successfully connected to the node at", infura_url)
-    else:
-        print("Connection to node failed. Please check the URL and try again.")
-    # Getting the balance of the wallet in Wei using the getBalance method
-    balance_in_wei = web3.eth.getBalance(address)
-
-    return str(balance_in_wei)

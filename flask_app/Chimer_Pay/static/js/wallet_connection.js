@@ -28,3 +28,14 @@ const showAccount = document.querySelector('.showAccount');
 // Add click event listener to the Ethereum enable button
 ethereumButton.addEventListener('click', () => { getAccounts(); });
 
+
+// const provider = window.ethereum;
+// const chainId =  provider.request({ method: ".eth_chainId" });
+
+// const binanceTestChainId = '0x61'
+// if(chainId === binanceTestChainId){
+// console.log("Bravo!, you are on the correct network");
+// }else{
+// console.log("oulalal, switch to the correct network")
+// }
+
