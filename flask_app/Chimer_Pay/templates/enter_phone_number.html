@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <style>
-    body {
-      background-color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
+{% extends "signup-layout.html" %}
+{% block content %}
 
-    .form-container {
-      background-color: white;
-      border-radius: 5px;
-      padding: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-sm-6">
+
         <div class="form-container">
           <form method="POST" class="form-register"  enctype="multipart/form-data"  id="InputForm">
             <div class="form-group">
@@ -37,10 +16,10 @@
           <button class="btn btn-primary" name="submit-ph-no" onclick="submit_phone_no()">Submit Phone Number</button>
 
         </div>
-      </div>
-    </div>
-  </div>
-</body>
+ 
+
+
+
 
 <script>
 
@@ -82,5 +61,4 @@ function submit_phone_no()
 
 </script>
 
-
-</html>
+{% endblock %}

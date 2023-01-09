@@ -1,6 +1,6 @@
 // get parameters
 
-function get_send_parameters(accounts,send_to) {
+function get_send_parameters(accounts,send_to,send_value) {
 
     para = {
         // Set the 'from' address to the first account in the list
@@ -8,13 +8,12 @@ function get_send_parameters(accounts,send_to) {
         // Set the 'to' address
         to: send_to,
         // Set the value to send in wei
-        value: '0x29a2241af62c0000',
+        value: send_value,
         // Set the gas price in wei
         gasPrice: '0x09184e72a000',
         // Set the gas limit
         gas: '0x2710',
-        // contract address
-        data : "0x07865c6E87B9F70255377e024ace6630C1Eaa37F"
+
     };
 
     return para
@@ -26,8 +25,24 @@ function get_send_parameters(accounts,send_to) {
 
 function SendEth(accounts) {
 
+    send_to = document.getElementsByName("to_address")[0].value;
 
-    para = get_send_parameters(accounts,send_to = "0x2f318C334780961FB129D2a6c30D0763d9a5C970");
+    $.ajax({
+        type: "POST",
+        url: actionUrl,
+        async: false,
+        data: form.serialize(), // serializes the form's elements.
+        success: function(data)
+        {
+          console.log(data);
+            //alert(data); // show response from the php script.
+        }
+    });
+
+
+    send_value = document.getElementsByName("cvalue")[0].value;
+    send_value =  "0x" + Web3.utils.toBN(Web3.utils.toWei(send_value, "ether")).toString(16);
+    para = get_send_parameters(accounts,send_to = send_to,send_value = send_value);
     // Send a request to the Ethereum network to send a transaction
 
     ethereum.request({ method: 'eth_sendTransaction', params: [para], })

@@ -5,6 +5,8 @@ from flask import render_template
 
 from web3 import Web3
 
+from .modules.Database import chimera_postgres_api
+from .modules.session_check import SessionCheck
 
 """
 Steps Modules and code block
@@ -45,27 +47,10 @@ if to make it double secure, we will validate the sent data with the hash of use
 # ------------------- Connect Eth Node -------------------
 # using coin base Eth test node 
 
-# import requests
+import requests
 
 
-# # Set the URL of the Ethereum node you want to connect to
-# infura_url = "https://goerli.ethereum.coinbasecloud.net"
-# # Set the API key and username to use for authentication
-# api_key = "LFAS4QZUWCIXAUEX56EZ4CFVNU7A7BNP4T4Q3KPQ"
-# username = "ROUECLBUF73ULG4A7SZS"
 
-# #Create a session with username and password
-# session = requests.Session()
-# session.auth = (username, api_key)
- 
-# #Connect to your Node
-# web3 = Web3(Web3.HTTPProvider(infura_url, session=session))
-
-# # Checking if the connection to the node was successful
-# if web3.isConnected():
-#     print("Successfully connected to the node at", infura_url)
-# else:
-#     print("Connection to node failed. Please check the URL and try again.")
 
 from flask_jwt_extended import (create_access_token,get_jwt_identity,jwt_required,
                                 JWTManager,create_refresh_token,get_jwt_identity,set_access_cookies,
@@ -167,6 +152,7 @@ def VerifyOTP():
     session_var     = session["Authentication Key"] 
     answer          = data["OTP"]
     results         = LoginModule.verify_otp(phone_number,session_var,answer)
+    session["Authentication Key"] = ""
 
     # raise Exception("Test")
 
@@ -174,11 +160,55 @@ def VerifyOTP():
         access_token    = results["AuthenticationResult"]["AccessToken"]
         resp            = make_response(redirect(url_for('send'),302))
         set_access_cookies(resp,access_token)
+        session["phone_number"] = phone_number
         return resp,302
     
     # return "OTP Not Valid"
     flash("OTP Not Valid",'alert')
     return redirect(url_for("login"))
+
+
+
+@app.route("/Update-Recieving-Account", methods=['GET' , 'POST'])
+@SessionCheck(Name="Check Phone Session")
+def Update_Recieving_Account():
+
+    
+    # return "Entered Page"
+
+    if request.method == "POST":
+        data = request.form.to_dict()
+        new_eth_address = data["Eth Account"]
+
+        accepted = chimera_postgres_api.execute_enter_data("chimera_user", ["phone","Address"], [session["phone_number"],new_eth_address])
+
+        if accepted == -1:
+            raise Exception("Error while database connection")
+
+        return redirect(url_for("send"))
+
+    return render_template("connect_meta_mask_wallet.html")
+
+
+@app.route("/Get-Eth-Address", methods=['GET' , 'POST'])
+@SessionCheck(Name="Check Phone Session")
+def GetAddress():
+    data = request.form.to_dict()
+    ph = data["to_address"]
+
+    print("phone number ",ph)
+
+    addresses =  chimera_postgres_api.execute_get_data("chimera_user", ["Address"], {"phone" : ph})
+
+    print("addresses ", addresses)
+
+
+    # raise Exception("testing")
+
+    if addresses==-1 or len(addresses)<1:
+        return "-1"
+    
+    return addresses[0][0]
 
 
 
@@ -199,6 +229,7 @@ def logout():
 
 
 @app.route("/send")
+@SessionCheck(Name="Check Phone Account Link")
 def send():
     return render_template("send.html")
 
@@ -253,3 +284,30 @@ def send():
 # # Define a route for transferring tokens
 # @app.route("/transfer/<to_address>/<value>")
 # def transfer(to_address, value):
+
+
+@app.route("/GetEthBalance/<address>")
+def get_balance_eth(address):
+
+        # Set the URL of the Ethereum node you want to connect to
+    infura_url = "https://goerli.ethereum.coinbasecloud.net"
+    # Set the API key and username to use for authentication
+    api_key = "LFAS4QZUWCIXAUEX56EZ4CFVNU7A7BNP4T4Q3KPQ"
+    username = "ROUECLBUF73ULG4A7SZS"
+
+    #Create a session with username and password
+    sessionx = requests.Session()
+    sessionx.auth = (username, api_key)
+    
+    #Connect to your Node
+    web3 = Web3(Web3.HTTPProvider(infura_url, session=sessionx))
+
+    # Checking if the connection to the node was successful
+    if web3.isConnected():
+        print("Successfully connected to the node at", infura_url)
+    else:
+        print("Connection to node failed. Please check the URL and try again.")
+    # Getting the balance of the wallet in Wei using the getBalance method
+    balance_in_wei = web3.eth.getBalance(address)
+
+    return str(balance_in_wei)
